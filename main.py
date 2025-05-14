@@ -2,6 +2,7 @@
 from subtitle_extractor import download_subtitle
 from parse_vtt import parse_vtt
 from summarize import summarize_text
+from api_main import app
 
 def main():
     url = input("유튜브 링크를 입력하세요: ").strip()
