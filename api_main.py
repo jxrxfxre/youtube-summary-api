@@ -12,3 +12,7 @@ def summarize_youtube(url: str = Query(...)):
     text = parse_vtt("subtitle.ko.ko.vtt")
     summary = summarize_text(text)
     return {"summary": summary}
+
+@app.get("/")
+def root():
+    return {"message": "FastAPI 배포 성공"}
