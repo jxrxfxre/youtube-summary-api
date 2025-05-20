@@ -2,13 +2,16 @@
 from subtitle_extractor import download_subtitle
 from parse_vtt import parse_vtt
 from summarize import summarize_text
-from api_main import app
 
 def main():
     url = input("유튜브 링크를 입력하세요: ").strip()
-    download_subtitle(url)
 
-    text = parse_vtt("subtitle.ko.ko.vtt")
+    vtt_content = download_subtitle(url)
+    if not vtt_content:
+        print("자막을 찾을 수 없습니다.")
+        return
+
+    text = parse_vtt(vtt_content)
     print("\n추출된 자막 일부분:")
     print(text[:500])
 
