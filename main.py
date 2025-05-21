@@ -5,10 +5,9 @@ from summarize import summarize_text
 
 def main():
     url = input("유튜브 링크를 입력하세요: ").strip()
-
     vtt_content = download_subtitle(url)
     if not vtt_content:
-        print("자막을 찾을 수 없습니다.")
+        print("자막이 없음")
         return
 
     text = parse_vtt(vtt_content)

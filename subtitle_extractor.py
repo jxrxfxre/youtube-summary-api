@@ -15,6 +15,5 @@ def download_subtitle(url: str) -> str:
         info = ydl.extract_info(url, download=False)
         if "subtitles" in info and "ko" in info["subtitles"]:
             sub_url = info["subtitles"]["ko"][0]["url"]
-            print("sub_url:", sub_url) #위잉잉
             return requests.get(sub_url).text
         return ""

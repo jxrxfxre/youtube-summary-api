@@ -3,51 +3,102 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Youtube 요약머신</title>
+        <title>외계 상점 - Youtube 요약</title>
         <style>
+            @font-face {
+                font-family: 'Galmuri9';
+                src: url('./Galmuri9.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+
             body {
-                font-family: sans-serif;
+                font-family: 'Galmuri9';
+                max-width: 600px;
+                margin: 0 auto;
                 padding: 2rem;
-                background-color: #f9f9f9;
+                background-color:aquamarine;
             }
+
             h1 {
-                color: #333;
+                font-size: 1.8rem;
+                color: #ff0000;
             }
-            input, button {
+
+            input[type="text"] {
+                font-family: 'Galmuri9';
+                width: 100%;
                 padding: 0.5rem;
-                margin: 0.5rem 0;
-                font-size: 1rem;
-                width: 100;
-            }
-            #result {
                 margin-top: 1rem;
+                font-size: 1rem;
+            }
+
+            button {
+                font-family: 'Galmuri9';
+                margin-top: 1rem;
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                cursor: pointer;
+            }
+
+            #result {
+                font-family: 'Galmuri9';
+                margin-top: 1.5rem;
                 padding: 1rem;
-                border: 1px solid #ccc;
-                background-color: #fff;
+                border: 1px solid #1100ff;
+                background-color: #1100ff;
+                min-height: 100px;
+                white-space: pre-wrap;
+                overflow-y: auto;
+            }
+
+            #error {
+                color: #ff0000;
+                margin-top: 1rem;
+            }
+
+            @media (max-width: 500px) {
+                body {
+                    padding: 1rem;
+                }
+                h1 {
+                    font-family: 'Galmuri9';
+                    font-size: 1.5rem;
+                }
             }
         </style>
     </head>
     <body>
-        <h1>Youtube 영상 요약머신</h1>
-        <input type="text" id="urlInput" placeholder="Youtube 링크 입력해봐라">
-        <button onclick="getSummary()">요약해볼까</button>
-        <div id="result">요약 결과다</div>
+        <h1>Youtube 영상 요약 타이어보다 싸다</h1>
+        <input type="text" id="urlInput" placeholder="Youtube 링크 ">
+        <button onclick="getSummary()">버튼을 압축</button>
+        <div id="error"></div>
+        <div id="result">요약 결과가 
+                         이곳에 온다</div>
 
         <script>
             async function getSummary() {
-                const url = document.getElementById('urlInput').value;
-                const resultDiv = document.getElementById('result');
-                resultDiv.textVontent = '요청 중 ...';
+                const urlInput = document.getElementById("urlInput");
+                const resultDiv = document.getElementById("result");
+                const errorDiv = document.getElementById("error");
+
+                const url = urlInput.value.trim();
+                resultDiv.textContent = "가져오는 중이다 ...";
+                errorDiv.textContent = "";
 
                 try {
-                    const response = await fetch('https://youtube-summary-api-production.up.railway.app/summarize?url=${encodeURIComponent(url)}')
+                    const response = await fetch(
+                        `https://youtube-summary-api-production.up.railway.app/summarize?url=${encodeURIComponent(url)}`
+                    );
                     if (!response.ok) {
-                        throw new Error('요약의 실수!!');
+                        throw new Error ("서버가 우리를 거부한다.");
                     }
+                    
                     const data = await response.json();
-                    resultDiv.textContent = data.summary || '요약 결과 증발';
-                } catch(err) {
-                    resultDiv.textContent = '에러의 등장: ' + err.message;
+                    resultDiv.textContent = data.summary || "요약 결과가 증발한다";
+                } catch (err) {
+                    resultDiv.textContent = "";
+                    errorDiv.textContent = "전부 망했다: " + err.message;
                 }
             }
         </script>
